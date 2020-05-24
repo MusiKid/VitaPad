@@ -9,6 +9,10 @@ extern "C" {
 
 struct vita create_device()
 {
+    struct vita vita_struct = {
+        .dev = NULL,
+        .sensor_dev = NULL,
+    };
     struct libevdev *dev = libevdev_new();
     struct libevdev_uinput *uidev;
 
@@ -61,7 +65,10 @@ struct vita create_device()
                                              LIBEVDEV_UINPUT_OPEN_MANAGED,
                                              &uidev);
 
-    sleep(1);
+    if (err < 0)
+        return vita_struct;
+
+    vita_struct.dev = uidev;
 
     // Have to create another device because sensors can't be mixed with directional axes
     // and we can't assign the back touch surface along with the touchscreen.
@@ -102,12 +109,10 @@ struct vita create_device()
                                              LIBEVDEV_UINPUT_OPEN_MANAGED,
                                              &sensor_uidev);
 
-    sleep(1);
+    if(err < 0)
+        return vita_struct;
 
-    struct vita vita_struct = {
-        .dev = uidev,
-        .sensor_dev = sensor_uidev,
-    };
+     vita_struct.sensor_dev = sensor_uidev;
 
     return vita_struct;
 }

@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <windows.h>
-#include "vendor/include/ViGEm/Client.h"
+#include "vigem.h"
 
 #ifdef __cplusplus
 extern "C"

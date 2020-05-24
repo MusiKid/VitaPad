@@ -10,9 +10,7 @@
 #include <psp2/motion.h>
 
 #include <climits>
-#include <unordered_map>
-#include <ctime>
-#include <utility>
+#include <cstring>
 
 #include <debugnet.h>
 
@@ -56,23 +54,23 @@ void disconnect_client(int efd, int cfd)
 	sceNetSocketClose(cfd);
 }
 
-int send_all(int fd, const void *buf, int size)
-{
-	const char *buf_ptr = (const char *)buf;
-	int bytes_sent;
+// int send_all(int fd, const void *buf, int size)
+// {
+// 	const char *buf_ptr = (const char *)buf;
+// 	int bytes_sent;
 
-	while (size > 0)
-	{
-		bytes_sent = sceNetSend(fd, buf_ptr, size, 0);
-		if (bytes_sent < 0)
-			return bytes_sent;
+// 	while (size > 0)
+// 	{
+// 		bytes_sent = sceNetSend(fd, buf_ptr, size, 0);
+// 		if (bytes_sent < 0)
+// 			return bytes_sent;
 
-		buf_ptr += bytes_sent;
-		size -= bytes_sent;
-	}
+// 		buf_ptr += bytes_sent;
+// 		size -= bytes_sent;
+// 	}
 
-	return 1;
-}
+// 	return 1;
+// }
 
 static int control_thread(uint args, void *argp)
 {
@@ -212,7 +210,7 @@ static int main_thread(unsigned int args, void *argp)
 				uint8_t *buffer = new uint8_t[buffer_size];
 				sceKernelReceiveMsgPipe(ctrl_msg_pipe, buffer, buffer_size, 0, NULL, NULL);
 
-				send_all(fd, buffer, buffer_size);
+				sceNetSend(fd, buffer, buffer_size, 0);
 
 				delete[] buffer;
 				sceKernelSendMsgPipe(ctrl_msg_pipe, 0, 0, 0, NULL, NULL);

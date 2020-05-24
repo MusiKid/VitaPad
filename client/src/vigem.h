@@ -2,7 +2,8 @@
 #ifndef __VIGEM_H__
 #define __VIGEM_H__
 
-#include "vendor/include/ViGEm/Client.h"
+#include "../deps/ViGEm/Common.h"
+#include "../deps/ViGEm/Client.h"
 
 #define xpad_abs_report(xpad_abs, vita_abs) \
     xpad_abs = (vita_abs - 128) * 128;

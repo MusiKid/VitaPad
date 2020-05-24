@@ -1,3 +1,6 @@
 [submodule "client/deps/ViGEm"]
 	path = client/deps/ViGEm
 	url = https://github.com/ViGEm/ViGEmClient.git
+[submodule "client/deps/tray"]
+	path = client/deps/tray
+	url = https://github.com/Nitemice/tray.git
